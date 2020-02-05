@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p id="demo"></p>
+    <p id="questions"></p>
+    <button onclick="myStopTimer()">Stop time</button>
+
+    <script>
+    let countDown = 100;
+    let interval = 1; // sec
+    let flgDeduct = false;   
+    let flgFinish = false;
+    let QList = [1,2,3,4,5];
+    let AList = [["A1", "A2", "A3", "A4"],["B1", "B2", "B3", "B4"],["C1", "C2", "C3", "C4"],["D1", "D2", "D3", "D4"],["E1", "E2", "E3", "E4"]];
+    let CList = [1,1,1,1,1];    
+
+    // start quiz | see score board
+    // show the time, show the deduction and the numbe rof deduction
+    // if timer stops redirect the page to game over page and ask for the name
+    // write with event delegation
+    // save it into localStorage  
+    
+    
+    document.getElementById("demo").innerHTML = countDown;
+    let myVar = setInterval(myStartTimer, interval*1000);
+    nextQuestion();
+    
+    function nextQuestion(index=1){
+        var lbl; 
+        lbl = document.createElement("LABEL");
+        lbl.id = `lblQ${index}`;
+        lbl.innerText = `Q${index}`;
+        document.querySelector("#questions").innerHTML = "";
+        document.querySelector("#questions").appendChild(lbl);
+        document.querySelector("#questions").appendChild(document.createElement("BR"));
+        
+        for (i=0; i<4; i++){
+            var lblA = document.createElement("LABEL");
+            document.querySelector("#questions").appendChild(lblA);
+            var radio = document.createElement("INPUT");
+            radio.name = `lblA${index}`;
+            radio.setAttribute("type", "radio");
+            radio.setAttribute('data-index', index);
+            radio.setAttribute('value', i+1);
+            radio.setAttribute('onclick', "myCalculation(this)"); 
+            radio.id=`r${index}${i+1}`;
+            lblA.appendChild(radio);
+            lblA.innerHTML =lblA.innerHTML + AList[index-1][i];
+            document.querySelector("#questions").appendChild(document.createElement("BR"));
+        }
+    }
+
+    function myStartTimer() {
+        (flgDeduct?myDeductTimer():console.log("count donw is : " + --countDown));
+        document.getElementById("demo").innerHTML = countDown;
+        if (countDown==0){
+            myStopTimer();
+            document.getElementById("demo").innerHTML = "Time is Over";
+        }
+        if (flgFinish) myStopTimer();
+    }
+
+    function myStopTimer() {
+        clearInterval(myVar);
+    }
+
+    function myDeductTimer(){
+        countDown = countDown - 5; 
+        flgDeduct = ! flgDeduct;
+        document.getElementById("demo").innerHTML = countDown+(interval);
+        console.log("count donw is : " + countDown);
+    }
+
+    function myResumeTimer() { 
+        flgDeduct = ! flgDeduct;
+    }
+    
+    function myCalculation(e){
+        if (e.value!=CList[e.getAttribute('data-index')-1]) {
+            myResumeTimer();
+        }  
+        
+        if (Number(e.getAttribute('data-index'))+1<=CList.length){
+            nextQuestion(Number(e.getAttribute('data-index'))+1);
+        } else {flgFinish = true; console.log("Questions Finished!");}
+    }
+    
+    </script>   
+</body>
+</html>
