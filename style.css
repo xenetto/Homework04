@@ -1,0 +1,30 @@
+#container {
+    border-radius: 5px;
+    background-color: white;
+    border: 2px solid black;
+    height: 600px;
+    width: 800px;
+}
+
+.buttons {
+    background-color: dodgerblue;
+    color: white;
+    width: 70px;
+    height: 40px;
+    border-radius: 5px;
+}
+#progressInfo {
+    text-align: center;
+    font-size: large;
+    color: black;
+}
+
+#questionInfo {
+    font-size: large;
+    color: black;
+}
+#userInfo {
+    text-align: center;
+    font-size: large;
+    color: black;
+}
